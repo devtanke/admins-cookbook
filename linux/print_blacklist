@@ -1,0 +1,14 @@
+#!/bin/sh
+
+CHAIN=$1
+
+if [ ! -z $CHAIN ]; then
+  echo "Print blacklist from chain $CHAIN"
+  iptables -L $CHAIN | grep DROP | awk '{print $4}'
+  exit 0
+else
+  echo "Please define a chain.\n"
+  echo "Example:"
+  echo "  print_blacklist DOCKER"
+  exit 1
+fi
