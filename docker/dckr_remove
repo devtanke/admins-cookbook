@@ -1,0 +1,24 @@
+#!/bin/sh
+
+STATUS=$1
+
+if [ -z "$STATUS" ] || [ "$STATUS" = "--help" ]; then
+    echo "Remove docker containers by a specified status."
+    echo ""
+    echo "Usage:"
+    echo "  dckr_remove <STATUS>"
+    echo ""
+    echo "Example:"
+    echo "  dckr_remove exited"
+    echo "  dckr_remove \"Up 3 minutes\""
+    exit 0
+fi
+
+RUNNING=`docker ps -a --format '{{.Names}}\t\t\t{{.Status}}' | grep -i "$STATUS" | awk '{print $1}'`
+if [ -z "$RUNNING" ]; then
+    echo "Nothing to remove."
+    exit 1
+fi
+
+docker rm -f $RUNNING
+exit 0

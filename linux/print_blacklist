@@ -2,13 +2,17 @@
 
 CHAIN=$1
 
-if [ ! -z $CHAIN ]; then
-  echo "Print blacklist from chain $CHAIN"
-  iptables -L $CHAIN | grep DROP | awk '{print $4}'
-  exit 0
-else
-  echo "Please define a chain.\n"
-  echo "Example:"
-  echo "  print_blacklist DOCKER"
-  exit 1
+if [ -z "$CHAIN" ] || [ "$CHAIN" = "--help" ]; then
+    echo "Get a blacklist by a specified chain."
+    echo ""
+    echo "Usage:"
+    echo "  print_blacklist <CHAIN>"
+    echo ""
+    echo "Example:"
+    echo "  print_blacklist DOCKER"
+    exit 1
 fi
+
+echo "Print blacklist from chain $CHAIN"
+iptables -L "$CHAIN" | grep DROP | awk '{print $4}'
+exit 0
