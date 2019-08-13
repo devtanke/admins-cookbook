@@ -9,3 +9,7 @@ find . -type d -exec chmod 750 {} \;
 ## Partition erweitern
 lvextend --resizefs -l +100%FREE /dev/mapper/fedora-root
 
+## RHEL
+
+### Update mit Paket-Exclude (bspw. kernel)
+yum -y --exclude=kernel\* update
